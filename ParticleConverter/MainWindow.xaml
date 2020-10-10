@@ -1,0 +1,724 @@
+﻿<Window
+    x:Class="ParticleConverter.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ht="http://helix-toolkit.org/wpf/SharpDX"
+    xmlns:local="clr-namespace:ParticleConverter"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="mainWindow"
+    Title="{DynamicResource WindowTitle}"
+    Width="640"
+    Height="485"
+    MinWidth="640"
+    MinHeight="495"
+    AllowsTransparency="True"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    ResizeMode="CanResize"
+    SizeChanged="MainWindow_SizeChanged"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome
+                        CaptionHeight="20"
+                        GlassFrameThickness="0"
+                        ResizeBorderThickness="4"
+                        UseAeroCaptionButtons="False" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="lang/ja-JP.xaml" />
+                <ResourceDictionary Source="data/Particles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <ResourceDictionary x:Key="ParticleList" Source="data/Particles.xaml" />
+
+            <Style x:Key="WindowMainPanelStyle" TargetType="{x:Type Panel}">
+                <Setter Property="Margin" Value="0" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=WindowState}" Value="Maximized">
+                        <Setter Property="Margin" Value="7" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <ContextMenu x:Key="Menu">
+                <MenuItem Click="Show_DevsTwitter" Header="{DynamicResource DeveloperTwitter}" />
+                <MenuItem Click="Show_BugReport" Header="{DynamicResource BugReport}" />
+                <MenuItem Click="Show_About" Header="{DynamicResource About}" />
+            </ContextMenu>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid
+        Width="{Binding ElementName=mainWindow, Path=Width}"
+        Margin="0,0,0,0"
+        Style="{StaticResource WindowMainPanelStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--  タイトルバー  -->
+        <Grid Name="TitleBar" Background="#FF11181C">
+            <Label
+                Margin="10,0"
+                Padding="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}"
+                FontSize="12" />
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button
+                    Name="MenuButton"
+                    Width="30"
+                    Height="30"
+                    Margin="0,0,20,0"
+                    Padding="0"
+                    Background="#FF11181C"
+                    BorderThickness="0"
+                    PreviewMouseUp="MenuButton_PreviewMouseUp"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                    <materialDesign:PackIcon Foreground="White" Kind="Menu" />
+                </Button>
+                <Button
+                    Width="30"
+                    Height="30"
+                    Padding="0"
+                    Background="#FF11181C"
+                    BorderThickness="0"
+                    PreviewMouseUp="Minimize_Button_PreviewMouseUp"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                    <materialDesign:PackIcon Foreground="White" Kind="WindowMinimize" />
+                </Button>
+                <Button
+                    Width="30"
+                    Height="30"
+                    Padding="0"
+                    Background="#FF11181C"
+                    BorderThickness="0"
+                    IsEnabled="False"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                    <materialDesign:PackIcon Foreground="White" Kind="WindowMaximize" />
+                </Button>
+                <Button
+                    Width="30"
+                    Height="30"
+                    Padding="0"
+                    Background="#FF11181C"
+                    BorderThickness="0"
+                    PreviewMouseUp="Close_Button_PreviewMouseUp"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                    <materialDesign:PackIcon Foreground="White" Kind="WindowClose" />
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <materialDesign:DialogHost
+            Name="DialogHost"
+            Grid.Row="1"
+            Margin="0,0,0,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+
+                <!--  言語  -->
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5,5,5,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <materialDesign:PackIcon
+                        Width="21"
+                        Height="21"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Kind="Earth" />
+                    <ComboBox
+                        Name="LanguageBox"
+                        Height="30"
+                        MinWidth="60"
+                        Margin="5,0,0,0"
+                        SelectionChanged="LanguageBox_SelectionChanged" />
+                </StackPanel>
+
+                <!--  ファイルパス  -->
+                <StackPanel
+                    Grid.RowSpan="2"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+                    <TextBox
+                        Name="FilePathBox"
+                        Width="256"
+                        materialDesign:HintAssist.FloatingScale="0.90"
+                        materialDesign:HintAssist.Hint="{DynamicResource ImageFileName}"
+                        Focusable="False"
+                        IsReadOnly="True"
+                        IsReadOnlyCaretVisible="True"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                    <Button
+                        Name="BrowsImageButton"
+                        Width="30"
+                        Height="30"
+                        Padding="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        HorizontalContentAlignment="Left"
+                        Click="BrowsImageButton_Click"
+                        Content="{materialDesign:PackIcon FileImageOutline,
+                                                          Size=29}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        ToolTip="{DynamicResource Brows}" />
+                </StackPanel>
+
+                <!--  各種設定  -->
+                <Grid
+                    Name="Options"
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Width="330"
+                    Margin="10,5,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Name="OptionsTitle"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        RenderTransformOrigin="0.433,1.096"
+                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                        Text="{DynamicResource SettingTitle}" />
+                    <ScrollViewer
+                        Name="OptionsView"
+                        Grid.Row="1"
+                        Margin="0,5"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Auto">
+                        <Grid Margin="0,0,0,0">
+                            <StackPanel>
+                                <ComboBox
+                                    Name="CoordinateModeBox"
+                                    Margin="10,10,128,0"
+                                    VerticalAlignment="Top"
+                                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                    materialDesign:HintAssist.FloatingScale="0.90"
+                                    materialDesign:HintAssist.Hint="{DynamicResource CoordinateMode}"
+                                    materialDesign:HintAssist.IsFloating="True">
+                                    <ComboBoxItem
+                                        Content="{DynamicResource RelativeCoordinate}"
+                                        IsSelected="True"
+                                        Tag="Relative" />
+                                    <ComboBoxItem Content="{DynamicResource LocalCoordinate}" Tag="Local" />
+                                </ComboBox>
+                                <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                    <ComboBox
+                                        Name="CoordinateAxis"
+                                        Width="110"
+                                        Margin="0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource CoordinateAxis}"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Loaded="ComboBox_Loaded">
+                                        <ComboBoxItem
+                                            Content="{DynamicResource X-Y}"
+                                            IsSelected="True"
+                                            Tag="0" />
+                                        <ComboBoxItem Content="{DynamicResource Y-Z}" Tag="1" />
+                                        <ComboBoxItem Content="{DynamicResource Z-X}" Tag="2" />
+                                    </ComboBox>
+                                    <ComboBox
+                                        Name="ImageRotationBox"
+                                        Width="80"
+                                        Margin="30,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource Rotation}"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Loaded="ComboBox_Loaded"
+                                        SelectionChanged="ImageRotationBox_SelectionChanged">
+                                        <ComboBoxItem
+                                            Content="0˚"
+                                            IsSelected="True"
+                                            Tag="0" />
+                                        <ComboBoxItem Content="90˚" Tag="90" />
+                                        <ComboBoxItem Content="180˚" Tag="180" />
+                                        <ComboBoxItem Content="270˚" Tag="270" />
+                                    </ComboBox>
+                                    <CheckBox
+                                        Name="ImageFlipBox"
+                                        Margin="20,0"
+                                        VerticalAlignment="Bottom"
+                                        Checked="ImageFlipBox_Checked"
+                                        Content="{DynamicResource Flip}"
+                                        Loaded="CheckBox_Loaded"
+                                        Unchecked="ImageFlipBox_Checked" />
+                                </StackPanel>
+                                <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                    <ComboBox
+                                        Name="HorizontalAlignmentBox"
+                                        MinWidth="80"
+                                        Margin="0,0,0,0"
+                                        VerticalAlignment="Top"
+                                        materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource HorizontalAlignment}"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Loaded="ComboBox_Loaded">
+                                        <ComboBoxItem
+                                            Content="{DynamicResource Left}"
+                                            IsSelected="True"
+                                            Tag="0" />
+                                        <ComboBoxItem Content="{DynamicResource Center}" Tag="1" />
+                                        <ComboBoxItem Content="{DynamicResource Right}" Tag="2" />
+                                    </ComboBox>
+                                    <ComboBox
+                                        Name="VerticalAlignmentBox"
+                                        MinWidth="100"
+                                        Margin="30,0,0,0"
+                                        VerticalAlignment="Top"
+                                        materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource VerticalAlignment}"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Loaded="ComboBox_Loaded">
+                                        <ComboBoxItem
+                                            Content="{DynamicResource Top}"
+                                            IsSelected="True"
+                                            Tag="0" />
+                                        <ComboBoxItem Content="{DynamicResource Center}" Tag="1" />
+                                        <ComboBoxItem Content="{DynamicResource Bottom}" Tag="2" />
+                                    </ComboBox>
+                                </StackPanel>
+
+                                <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                                    <TextBox
+                                        Name="ParticleSizeBox"
+                                        Width="100"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource ParticleSize}"
+                                        Loaded="FilterTextBox_Loaded"
+                                        LostFocus="ParticleSizeBox_LostFocus"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="1.00" />
+                                    <TextBox
+                                        Name="ParticleDensityBox"
+                                        Width="70"
+                                        Margin="30,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource ParticleDensity}"
+                                        IsEnabled="{Binding ElementName=AutoSizeBox, Path=IsChecked}"
+                                        Loaded="FilterTextBox_Loaded"
+                                        LostFocus="NumlicBox_LostFocus"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="8"
+                                        TextChanged="ParticleDensityBox_TextChanged" />
+                                </StackPanel>
+
+                                <CheckBox
+                                    Name="AutoSizeBox"
+                                    Margin="10,10,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Checked="AutoSizeBox_Checked"
+                                    Content="{DynamicResource AutoSize}"
+                                    IsChecked="True"
+                                    Loaded="CheckBox_Check_Changed"
+                                    Style="{StaticResource MaterialDesignCheckBox}" />
+
+                                <!--  サイズ（ブロック）  -->
+                                <TextBlock
+                                    Margin="10,10,0,0"
+                                    IsEnabled="{Binding ElementName=AutoSizeBox, Path=IsChecked, Converter={StaticResource BoolNeg}}"
+                                    Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                    Text="{DynamicResource Size}" />
+                                <StackPanel
+                                    Margin="10,0,0,0"
+                                    IsEnabled="{Binding ElementName=AutoSizeBox, Path=IsChecked, Converter={StaticResource BoolNeg}}"
+                                    Orientation="Horizontal">
+                                    <TextBox
+                                        Name="SizeWBox"
+                                        Width="80"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource Width}"
+                                        Loaded="FilterTextBox_Loaded"
+                                        LostFocus="SizeBox_LostFocus"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="3" />
+                                    <TextBlock
+                                        Width="21"
+                                        Height="21"
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Bottom"
+                                        Foreground="DarkGray">
+                                        <materialDesign:PackIcon
+                                            Width="21"
+                                            Height="21"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Bottom"
+                                            Kind="Close" />
+                                    </TextBlock>
+                                    <TextBox
+                                        Name="SizeHBox"
+                                        Width="80"
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
+                                        materialDesign:HintAssist.FloatingScale="0.90"
+                                        materialDesign:HintAssist.Hint="{DynamicResource Height}"
+                                        Loaded="FilterTextBox_Loaded"
+                                        LostFocus="SizeBox_LostFocus"
+                                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                        Text="3" />
+                                </StackPanel>
+
+                                <!--  詳細設定  -->
+
+                                <Expander
+                                    Width="{Binding ElementName=Options, Path=Width}"
+                                    Margin="0,5,5,0"
+                                    HorizontalAlignment="Left"
+                                    Expanded="Expander_Expanded">
+                                    <Expander.Header>
+                                        <DockPanel>
+                                            <TextBlock
+                                                DockPanel.Dock="Right"
+                                                Text="{DynamicResource ExtraOptions}"
+                                                TextAlignment="Right" />
+                                        </DockPanel>
+                                    </Expander.Header>
+
+                                    <StackPanel Margin="10,10,0,0">
+                                        <!--  解像度  -->
+                                        <TextBlock
+                                            Margin="0,10,0,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                            Text="{DynamicResource Resolution}" />
+                                        <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                            <StackPanel
+                                                Margin="5,0"
+                                                IsEnabled="{Binding ElementName=AutoResolutionBox, Path=IsChecked, Converter={StaticResource BoolNeg}}"
+                                                Orientation="Horizontal">
+                                                <TextBox
+                                                    Name="ResolutionWidthBox"
+                                                    Width="53"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    materialDesign:HintAssist.FloatingScale="0.90"
+                                                    materialDesign:HintAssist.Hint="{DynamicResource Width}"
+                                                    Loaded="FilterTextBox_Loaded"
+                                                    LostFocus="ResolutionBox_LostFocus"
+                                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                    Text="64" />
+                                                <TextBlock
+                                                    Width="21"
+                                                    Height="21"
+                                                    Margin="10,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Bottom"
+                                                    Foreground="DarkGray">
+                                                    <materialDesign:PackIcon
+                                                        Width="21"
+                                                        Height="21"
+                                                        HorizontalAlignment="Center"
+                                                        Kind="Close" />
+                                                </TextBlock>
+                                                <TextBox
+                                                    Name="ResolutionHeightBox"
+                                                    Width="53"
+                                                    Margin="10,0,0,0"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    materialDesign:HintAssist.FloatingScale="0.90"
+                                                    materialDesign:HintAssist.Hint="{DynamicResource Height}"
+                                                    Loaded="FilterTextBox_Loaded"
+                                                    LostFocus="ResolutionBox_LostFocus"
+                                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                                    Text="64" />
+                                            </StackPanel>
+                                            <CheckBox
+                                                Name="AutoResolutionBox"
+                                                Margin="10,0,0,5"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                Checked="AutoResolutionBox_Checked"
+                                                Content="{DynamicResource AutoResolution}"
+                                                IsChecked="True"
+                                                Loaded="CheckBox_Check_Changed"
+                                                Style="{StaticResource MaterialDesignCheckBox}" />
+                                        </StackPanel>
+                                        <!--  パーティクル  -->
+                                        <TextBlock
+                                            Margin="0,15,0,0"
+                                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                            Text="{DynamicResource Particle}" />
+                                        <ComboBox
+                                            Name="ParticleTypeBox"
+                                            Width="180"
+                                            Margin="5,10"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                            materialDesign:HintAssist.FloatingScale="0.90"
+                                            materialDesign:HintAssist.Hint="{DynamicResource ParticleType}"
+                                            materialDesign:HintAssist.IsFloating="True"
+                                            IsEditable="True"
+                                            ItemsSource="{StaticResource Particles}"
+                                            Loaded="ComboBox_Loaded"
+                                            SelectedValue="dust" />
+                                        <StackPanel Margin="5,0" Orientation="Horizontal">
+                                            <ComboBox
+                                                Name="DisplayModeBox"
+                                                MinWidth="80"
+                                                Margin="0,0"
+                                                VerticalAlignment="Bottom"
+                                                materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                                materialDesign:HintAssist.FloatingScale="0.90"
+                                                materialDesign:HintAssist.Hint="{DynamicResource DisplayMode}"
+                                                materialDesign:HintAssist.IsFloating="True">
+                                                <ComboBoxItem Content="{DynamicResource Normal}" Tag="normal" />
+                                                <ComboBoxItem
+                                                    Content="{DynamicResource Force}"
+                                                    IsSelected="True"
+                                                    Tag="force" />
+                                            </ComboBox>
+                                            <TextBox
+                                                Name="ParticleViewerBox"
+                                                Width="140"
+                                                Margin="30,0"
+                                                VerticalAlignment="Bottom"
+                                                materialDesign:HintAssist.FloatingScale="0.90"
+                                                materialDesign:HintAssist.Hint="{DynamicResource ParticleViewer}"
+                                                materialDesign:HintAssist.IsFloating="True"
+                                                Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                                                @a
+                                            </TextBox>
+                                        </StackPanel>
+                                        <!--  カラーコード  -->
+                                        <StackPanel
+                                            Margin="5,5"
+                                            IsEnabled="{Binding ElementName=ParticleTypeBox, Path=Text, Converter={StaticResource IsDust}}"
+                                            Orientation="Horizontal">
+                                            <CheckBox
+                                                Name="UseStaticDustColor"
+                                                Margin="0,0,0,5"
+                                                VerticalAlignment="Bottom"
+                                                Checked="CheckBox_Check_Changed"
+                                                Content="{DynamicResource DustColorStatic}"
+                                                Loaded="CheckBox_Loaded" />
+                                            <TextBox
+                                                Name="ColorCodeBox"
+                                                Width="80"
+                                                Margin="10,0"
+                                                VerticalAlignment="Bottom"
+                                                materialDesign:HintAssist.Hint="{DynamicResource ColorCode}"
+                                                materialDesign:HintAssist.IsFloating="True"
+                                                IsEnabled="{Binding ElementName=UseStaticDustColor, Path=IsChecked}"
+                                                Loaded="FilterTextBox_Loaded"
+                                                LostFocus="ColorCodeBox_LostFocus"
+                                                TextChanged="ColorCodeBox_TextChanged">
+                                                red
+                                            </TextBox>
+                                            <Canvas
+                                                Name="ColorCanvas"
+                                                Width="25"
+                                                Height="25"
+                                                Margin="5,0"
+                                                VerticalAlignment="Bottom"
+                                                IsEnabled="{Binding ElementName=UseStaticDustColor, Path=IsChecked}" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Expander>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <!--  プレビュー  -->
+                <CheckBox
+                    Name="UsePreviewBox"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="5,0"
+                    Checked="UsePreviewBox_Checked"
+                    Content="{DynamicResource UsePreview}" />
+                <TextBlock
+                    Name="ParticleCounter"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Particles: 0" />
+                <Grid
+                    Grid.Row="2"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="5,0,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="220" />
+                        <RowDefinition Height="*" MinHeight="170" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="#333333">
+                        <ht:Viewport3DX
+                            Name="ParticlePreview"
+                            BackgroundColor="#252525"
+                            CoordinateSystemLabelForeground="Snow"
+                            CoordinateSystemSize="0.6"
+                            EffectsManager="{Binding EffectsManager}"
+                            MSAA="Four"
+                            SSAOQuality="High"
+                            ShowCoordinateSystem="True"
+                            ShowViewCube="False">
+
+                            <ht:Viewport3DX.Camera>
+                                <ht:PerspectiveCamera
+                                    LookDirection="-6 -6 -10"
+                                    Position="6 6 10"
+                                    UpDirection="0 1 0" />
+                            </ht:Viewport3DX.Camera>
+
+                            <ht:AmbientLight3D />
+                            <ht:LineGeometryModel3D
+                                Geometry="{Binding GridGeometry3D}"
+                                Thickness="0.4"
+                                Transform="{Binding GridGeometry3DTransform}"
+                                Color="LightGray" />
+                            <!--<ht:CoordinateSystemVisual3D
+                            ArrowLengths="10"
+
+                            YAxisColor="#FF4B4B96"
+                            ZAxisColor="#FF4B964B" />-->
+                            <ht:LineGeometryModel3D
+                                Geometry="{Binding AxisX}"
+                                Thickness="0.7"
+                                Color="Red" />
+                            <ht:LineGeometryModel3D
+                                Geometry="{Binding AxisY}"
+                                IsRendering="True"
+                                Thickness="0.7"
+                                Color="green" />
+                            <ht:LineGeometryModel3D
+                                Geometry="{Binding AxisZ}"
+                                IsRendering="True"
+                                Thickness="0.7"
+                                Color="Blue" />
+
+                            <ht:PointGeometryModel3D
+                                x:Name="ParticleModel"
+                                Size="8,8"
+                                Color="White" />
+                        </ht:Viewport3DX>
+
+                    </Grid>
+                    <GridSplitter
+                        Grid.Row="1"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource HorizontalGridSplitter}" />
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom">
+
+                        <TextBlock Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Text="{DynamicResource ExportSettings}" />
+                        <!--  ファイルパス  -->
+                        <StackPanel
+                            Grid.RowSpan="2"
+                            Margin="5,20,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal">
+                            <TextBox
+                                Name="FolderPathBox"
+                                Width="235"
+                                materialDesign:HintAssist.FloatingScale="0.90"
+                                materialDesign:HintAssist.Hint="{DynamicResource ExportFolder}"
+                                Focusable="False"
+                                IsReadOnly="True"
+                                IsReadOnlyCaretVisible="True"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                            <Button
+                                Name="BrowsFolderButton"
+                                Width="30"
+                                Height="30"
+                                Padding="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                HorizontalContentAlignment="Left"
+                                Click="BrowsFolderButton_Click"
+                                Content="{materialDesign:PackIcon Kind=FolderOpenOutline,
+                                                                  Size=29}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="{DynamicResource Brows}" />
+                        </StackPanel>
+                        <Button
+                            Name="ExportButton"
+                            Width="230"
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center"
+                            materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+                            Click="ExportButton_Click"
+                            Content="{DynamicResource Export}"
+                            Style="{StaticResource MaterialDesignRaisedButton}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </materialDesign:DialogHost>
+    </Grid>
+</Window>

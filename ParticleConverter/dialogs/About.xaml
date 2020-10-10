@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="ParticleConverter.dialogs.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ParticleConverter.dialogs"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme
+                    BaseTheme="Dark"
+                    PrimaryColor="Green"
+                    SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <materialDesign:Card
+        Width="540"
+        Height="300"
+        Background="{DynamicResource MaterialDesignDarkBackground}">
+        <Grid>
+            <StackPanel Margin="16">
+                <TextBlock
+                    x:Name="labelTitle"
+                    FontSize="24"
+                    Foreground="White"
+                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                    Text="About" />
+                <StackPanel Margin="5,10,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="Version:" />
+                    <TextBlock
+                        Name="Version"
+                        Margin="10,0,0,0"
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
+                </StackPanel>
+                <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="Author:" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="Kemo431" />
+                </StackPanel>
+                <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="Lisense:" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="MIT" />
+                </StackPanel>
+                <StackPanel Margin="5,5,0,0" Orientation="Horizontal">
+                    <TextBlock
+                        Foreground="Gray"
+                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                        Text="Repository:" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Foreground="LightGray"
+                        PreviewMouseDown="TextBlock_PreviewMouseDown"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="https://github.com/kemo14331/MC-Debug-Monitor" />
+                </StackPanel>
+            </StackPanel>
+            <Button
+                Width="80"
+                Margin="0,0,10,10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Content="OK"
+                Style="{DynamicResource MaterialDesignFlatButton}" />
+        </Grid>
+    </materialDesign:Card>
+</UserControl>

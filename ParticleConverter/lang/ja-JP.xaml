@@ -1,0 +1,64 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WindowTitle">画像をパーティクルに変換君2</system:String>
+
+    <system:String x:Key="DeveloperTwitter">開発者Twitter</system:String>
+    <system:String x:Key="BugReport">バグ報告</system:String>
+    <system:String x:Key="About">このアプリについて</system:String>
+
+    <system:String x:Key="SettingTitle">各種設定</system:String>
+    <system:String x:Key="ImageFileName">画像ファイル</system:String>
+    <system:String x:Key="Brows">参照</system:String>
+
+    <system:String x:Key="CoordinateMode">座標モード</system:String>
+    <system:String x:Key="RelativeCoordinate">ワールド相対</system:String>
+    <system:String x:Key="LocalCoordinate">向き相対</system:String>
+
+    <system:String x:Key="CoordinateAxis">描画座標軸</system:String>
+    <system:String x:Key="X-Y">X-Y</system:String>
+    <system:String x:Key="Y-Z">Y-Z</system:String>
+    <system:String x:Key="Z-X">Z-X</system:String>
+
+    <system:String x:Key="Rotation">回転</system:String>
+    <system:String x:Key="Flip">反転</system:String>
+
+    <system:String x:Key="VerticalAlignment">垂直基準</system:String>
+    <system:String x:Key="Top">上</system:String>
+    <system:String x:Key="Center">中央</system:String>
+    <system:String x:Key="Bottom">下</system:String>
+
+    <system:String x:Key="HorizontalAlignment">水平基準</system:String>
+    <system:String x:Key="Right">右</system:String>
+    <system:String x:Key="Left">左</system:String>
+
+    <system:String x:Key="Particle">パーティクル</system:String>
+    <system:String x:Key="ParticleType">パーティクルタイプ</system:String>
+    <system:String x:Key="DisplayMode">表示モード</system:String>
+    <system:String x:Key="Normal">通常</system:String>
+    <system:String x:Key="Force">強制</system:String>
+    <system:String x:Key="ParticleViewer">対象エンティティ</system:String>
+    <system:String x:Key="DustColorStatic">色指定</system:String>
+    <system:String x:Key="ColorCode">カラーコード</system:String>
+
+    <system:String x:Key="ParticleSize">パーティクルサイズ</system:String>
+
+    <system:String x:Key="ParticleDensity">密度</system:String>
+    <system:String x:Key="AutoSize">サイズ自動調整</system:String>
+
+    <system:String x:Key="Size">サイズ(ブロック)</system:String>
+    <system:String x:Key="Width">幅</system:String>
+    <system:String x:Key="Height">高さ</system:String>
+
+    <system:String x:Key="Resolution">解像度</system:String>
+    <system:String x:Key="AutoResolution">画像サイズに合わせる</system:String>
+
+    <system:String x:Key="ExtraOptions">詳細設定</system:String>
+
+    <system:String x:Key="UsePreview">プレビュー</system:String>
+
+    <system:String x:Key="ExportSettings">出力設定</system:String>
+    <system:String x:Key="ExportFolder">出力先フォルダ</system:String>
+    <system:String x:Key="Export">出力!</system:String>
+</ResourceDictionary>

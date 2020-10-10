@@ -1,0 +1,38 @@
+﻿<Application
+    x:Class="ParticleConverter.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ParticleConverter"
+    xmlns:local1="clr-namespace:ParticleConverter.util"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme
+                    BaseTheme="Dark"
+                    PrimaryColor="Green"
+                    SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="styles/ScrollBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--  GridSplitter  -->
+            <Style
+                x:Key="HorizontalGridSplitter"
+                BasedOn="{StaticResource MaterialDesignGridSplitter}"
+                TargetType="{x:Type GridSplitter}">
+                <Setter Property="Height" Value="5" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+            </Style>
+            <Style
+                x:Key="VerticalGridSplitter"
+                BasedOn="{StaticResource MaterialDesignGridSplitter}"
+                TargetType="{x:Type GridSplitter}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Width" Value="5" />
+            </Style>
+            <local1:CBoolNegativeConverter x:Key="BoolNeg" />
+            <local1:IsDustConverter x:Key="IsDust" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
