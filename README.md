@@ -1,20 +1,23 @@
 # Particle Converter 
-‰æ‘œƒtƒ@ƒCƒ‹‚ğmcfunction‚É•ÏŠ·‚·‚éƒc[ƒ‹
+ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’mcfunctionã«å¤‰æ›ã™ã‚‹ãƒ„ãƒ¼ãƒ«
 
 ## ScreenShot
  ![screenshot0](https://imgur.com/SEKM371.jpg,"screenshot")
- ![screenshot1](https://imgur.com/Ld544Cx.jpg,"screenshot1")
- ![screenshot2](https://imgur.com/hdSbSkc.jpg, "screenshot2")
+ <details>
+ <summary>and more</summary><div>  
+ <img src="https://imgur.com/Ld544Cx.jpg", "screenshot1">
+ <img src="https://imgur.com/hdSbSkc.jpg" alt="screenshot2" />
+ </div></details>  
 
 ## Feature
-* ‰æ‘œƒtƒ@ƒCƒ‹(.jpg|.png)‚ğMinecraft‚Å•\¦‰Â”\‚ÈparticleƒRƒ}ƒ“ƒh‚É•ÏŠ·‚µAmcfunctionŒ`®‚Åo—Í
-* ƒ[ƒ‹ƒh‘Š‘ÎÀ•W(\~)‚Æƒ[ƒJƒ‹‘Š‘ÎÀ•W(\^)‚É‘Î‰
-* ƒpƒ‰ƒ[ƒ^‚Ì•ÏX‚ğƒŠƒAƒ‹ƒ^ƒCƒ€‚ÅƒvƒŒƒrƒ…[‰Â”\
-* •\¦ƒTƒCƒY‚ğƒuƒƒbƒN’PˆÊ‚Åw’è‰Â”\
-* ‰ğ‘œ“x‚Ì•ÏX‚ğƒTƒ|[ƒg
-* dust‚ÌFw’è‚É‘Î‰
-* dustˆÈŠO‚Ìƒp[ƒeƒBƒNƒ‹‚É‘Î‰
-* ƒAƒvƒŠ‚Ì‘½Œ¾Œê‘Î‰
+* ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«(.jpg|.png)ã‚’Minecraftã§è¡¨ç¤ºå¯èƒ½ãªparticleã‚³ãƒãƒ³ãƒ‰ã«å¤‰æ›ã—ã€mcfunctionå½¢å¼ã§å‡ºåŠ›
+* ãƒ¯ãƒ¼ãƒ«ãƒ‰ç›¸å¯¾åº§æ¨™(\~)ã¨ãƒ­ãƒ¼ã‚«ãƒ«ç›¸å¯¾åº§æ¨™(\^)ã«å¯¾å¿œ
+* ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®å¤‰æ›´ã‚’ãƒªã‚¢ãƒ«ã‚¿ã‚¤ãƒ ã§ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼å¯èƒ½
+* è¡¨ç¤ºã‚µã‚¤ã‚ºã‚’ãƒ–ãƒ­ãƒƒã‚¯å˜ä½ã§æŒ‡å®šå¯èƒ½
+* è§£åƒåº¦ã®å¤‰æ›´ã‚’ã‚µãƒãƒ¼ãƒˆ
+* dustã®è‰²æŒ‡å®šã«å¯¾å¿œ
+* dustä»¥å¤–ã®ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã«å¯¾å¿œ
+* ã‚¢ãƒ—ãƒªã®å¤šè¨€èªå¯¾å¿œ
 
 ## Downloads
  [Particle-Converter/Release](https://github.com/kemo14331/Particle-Converter/releases/latest)
