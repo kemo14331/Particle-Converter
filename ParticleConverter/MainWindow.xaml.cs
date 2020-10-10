@@ -649,7 +649,7 @@ namespace ParticleConverter
 
         private void Show_BugReport(object sender, RoutedEventArgs e)
         {
-            var ps = new ProcessStartInfo("gitのうらるはる")
+            var ps = new ProcessStartInfo("https://github.com/kemo14331/Particle-Converter/issues")
             {
                 UseShellExecute = true,
                 Verb = "open"

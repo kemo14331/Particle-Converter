@@ -2,13 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="WindowTitle">Image to Particle Converter</system:String>
+    <system:String x:Key="WindowTitle">Particle Converter</system:String>
 
     <system:String x:Key="DeveloperTwitter">Developer's Twitter</system:String>
     <system:String x:Key="BugReport">Bug Report</system:String>
     <system:String x:Key="About">About</system:String>
 
-    <system:String x:Key="SettingTitle">Convert Settings</system:String>
+    <system:String x:Key="SettingTitle">Converting Settings</system:String>
     <system:String x:Key="ImageFileName">ImageFile</system:String>
     <system:String x:Key="Brows">Brows</system:String>
 
@@ -54,7 +54,7 @@
     <system:String x:Key="Resolution">Resolution</system:String>
     <system:String x:Key="AutoResolution">Auto</system:String>
 
-    <system:String x:Key="ExtraOptions">Advanced Settings</system:String>
+    <system:String x:Key="ExtraOptions">More Settings</system:String>
 
     <system:String x:Key="UsePreview">Preview</system:String>
 

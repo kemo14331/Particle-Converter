@@ -73,7 +73,7 @@
                         Foreground="LightGray"
                         PreviewMouseDown="TextBlock_PreviewMouseDown"
                         Style="{StaticResource MaterialDesignBody1TextBlock}"
-                        Text="https://github.com/kemo14331/MC-Debug-Monitor" />
+                        Text="https://github.com/kemo14331/Particle-Converter" />
                 </StackPanel>
             </StackPanel>
             <Button
