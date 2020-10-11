@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:ParticleConverter"
     xmlns:local1="clr-namespace:ParticleConverter.util"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    DispatcherUnhandledException="App_DispatcherUnhandledException"
     StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
