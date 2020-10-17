@@ -8,7 +8,7 @@
     <system:String x:Key="BugReport">Bug Report</system:String>
     <system:String x:Key="About">About</system:String>
 
-    <system:String x:Key="SettingTitle">Converting Settings</system:String>
+    <system:String x:Key="SettingTitle">Convertion Settings</system:String>
     <system:String x:Key="ImageFileName">ImageFile</system:String>
     <system:String x:Key="Brows">Brows</system:String>
 
