@@ -61,4 +61,13 @@
     <system:String x:Key="ExportSettings">Export Settings</system:String>
     <system:String x:Key="ExportFolder">ExportFolder</system:String>
     <system:String x:Key="Export">Export!!</system:String>
+
+    <system:String x:Key="ParticleCounterAlert">
+        There are too many particles.
+        It may not be displayed normally depending on the performance of the computer.
+        Consider changing the resolution.
+    </system:String>
+
+    <system:String x:Key="UpdateNotification">Update Notification</system:String>
+    <system:String x:Key="UpdateNotificationMsg">A new version is available. \ n Do you want to download it?</system:String>
 </ResourceDictionary>

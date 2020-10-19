@@ -61,4 +61,13 @@
     <system:String x:Key="ExportSettings">出力設定</system:String>
     <system:String x:Key="ExportFolder">出力先フォルダ</system:String>
     <system:String x:Key="Export">出力!</system:String>
+
+    <system:String x:Key="ParticleCounterAlert">
+        パーティクルの量が多すぎます。
+        コンピュータの性能によっては正常に表示できない可能性があります。
+        解像度の変更を検討してください。
+    </system:String>
+
+    <system:String x:Key="UpdateNotification">アップデート通知</system:String>
+    <system:String x:Key="UpdateNotificationMsg">新しいバージョンが公開されています。\nダウンロードしますか？</system:String>
 </ResourceDictionary>

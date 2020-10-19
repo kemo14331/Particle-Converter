@@ -270,6 +270,16 @@ namespace ParticleConverter
                     double size = double.Parse(ParticleSizeBox.Text);
                     ParticleModel.Size = new System.Windows.Size(3 * Math.Sqrt(size), 3 * Math.Sqrt(size));
                     ParticleCounter.Text = $"Particles: {particles.Length}";
+                    if(particles.Length >= 2000)
+                    {
+                        ParticleCounter.Foreground = new SolidColorBrush(Colors.Red);
+                        CounterAlert.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        ParticleCounter.Foreground = new SolidColorBrush(Colors.Snow);
+                        CounterAlert.Visibility = Visibility.Hidden;
+                    }
                 }
             }
             catch (Exception e)
@@ -575,9 +585,9 @@ namespace ParticleConverter
                 BrowsImageButton.IsEnabled = false;
                 BrowsFolderButton.IsEnabled = false;
                 ButtonProgressAssist.SetValue(ExportButton, 0);
-                int coord = int.Parse(((ComboBoxItem)CoordinateAxis.SelectedItem).Tag.ToString());
-                int verAlig = int.Parse(((ComboBoxItem)VerticalAlignmentBox.SelectedItem).Tag.ToString());
-                int horAlig = int.Parse(((ComboBoxItem)HorizontalAlignmentBox.SelectedItem).Tag.ToString());
+                int coord = CoordinateAxis.SelectedIndex;
+                int verAlig = VerticalAlignmentBox.SelectedIndex;
+                int horAlig = HorizontalAlignmentBox.SelectedIndex;
                 Particle[] particles = ImageConverter.GetParticles(coord, verAlig, horAlig);
                 ButtonProgressAssist.SetMaximum(ExportButton, particles.Length + 20);
                 ButtonProgressAssist.SetValue(ExportButton, 20);
@@ -618,7 +628,7 @@ namespace ParticleConverter
                     for (int i = 0; i < particles.Length; i++)
                     {
                         var p = particles[i];
-                        string axis = $"{cs}{Math.Round(p.x, 5)} {cs}{Math.Round(p.y, 5)} {cs}{Math.Round(p.z, 5)}";
+                        string axis = $"{cs}{Math.Round(p.x, 7)} {cs}{Math.Round(p.y, 7)} {cs}{Math.Round(p.z, 7)}";
                         string particle = "minecraft:" + ParticleTypeBox.Text;
                         if (ParticleTypeBox.SelectedValue.Equals("dust"))
                         {
@@ -686,7 +696,7 @@ namespace ParticleConverter
         }
         private async void Show_About(object sender, RoutedEventArgs e)
         {
-            var dialog = new About();
+            var dialog = new dialogs.About();
             var result = await DialogHost.ShowDialog(dialog);
         }
 
