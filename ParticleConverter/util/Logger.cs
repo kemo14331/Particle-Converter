@@ -17,9 +17,8 @@ namespace ParticleConverter.util
                 Directory.CreateDirectory(@".\exceptionLog");
                 string path = $@".\exceptionLog\{result}.txt";
                 streamWriter = new StreamWriter(path);
-                streamWriter.WriteLine("Member:" + e.TargetSite.Name);
-                streamWriter.WriteLine(e.Message);
-                streamWriter.WriteLine(e.StackTrace);
+                streamWriter.WriteLine(e.Data);
+                streamWriter.WriteLine(e.ToString());
             }
             finally
             {

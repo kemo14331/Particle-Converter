@@ -186,9 +186,9 @@ namespace ParticleConverter
             {
                 if (ImageConverter.IsLoaded && UsePreviewBox.IsChecked.Value)
                 {
-                    int coord = int.Parse(((ComboBoxItem)CoordinateAxis.SelectedItem).Tag.ToString());
-                    int verAlig = int.Parse(((ComboBoxItem)VerticalAlignmentBox.SelectedItem).Tag.ToString());
-                    int horAlig = int.Parse(((ComboBoxItem)HorizontalAlignmentBox.SelectedItem).Tag.ToString());
+                    int coord = CoordinateAxis.SelectedIndex;
+                    int verAlig = VerticalAlignmentBox.SelectedIndex;
+                    int horAlig = HorizontalAlignmentBox.SelectedIndex;
                     //Mat smat = ImageConverter.GetModifiedImage();
                     //System.Windows.Size size = ImageConverter.GetBlocks();
                     //Bitmap bitmap = smat.ToBitmap();
@@ -618,7 +618,7 @@ namespace ParticleConverter
                     for (int i = 0; i < particles.Length; i++)
                     {
                         var p = particles[i];
-                        string axis = $"{cs}{p.x} {cs}{p.y} {cs}{p.z}";
+                        string axis = $"{cs}{Math.Round(p.x, 5)} {cs}{Math.Round(p.y, 5)} {cs}{Math.Round(p.z, 5)}";
                         string particle = "minecraft:" + ParticleTypeBox.Text;
                         if (ParticleTypeBox.SelectedValue.Equals("dust"))
                         {

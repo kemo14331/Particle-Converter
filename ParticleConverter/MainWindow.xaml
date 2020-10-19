@@ -287,7 +287,7 @@
                                             Content="0˚"
                                             IsSelected="True"
                                             Tag="0" />
-                                        <ComboBoxItem Content="90˚" Tag="90" />
+                                        <ComboBoxItem Content="90˚" Tag="90"/>
                                         <ComboBoxItem Content="180˚" Tag="180" />
                                         <ComboBoxItem Content="270˚" Tag="270" />
                                     </ComboBox>
