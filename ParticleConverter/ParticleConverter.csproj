@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <StartupObject>ParticleConverter.App</StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Kemo431.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>kemo14331.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <Copyright>Kemo431</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
@@ -16,8 +16,8 @@
     <RepositoryUrl>https://github.com/kemo14331/Particle-Converter</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.2.*</AssemblyVersion>
-    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.3.*</AssemblyVersion>
+    <Version>1.0.3</Version>
     <FileVersion>1.0.2</FileVersion>
   </PropertyGroup>
 
@@ -75,5 +75,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)\lang&quot; $(TargetDir) /Y" />
+  </Target>
 
 </Project>

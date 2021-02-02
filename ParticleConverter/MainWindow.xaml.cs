@@ -2,7 +2,6 @@
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using ParticleConverter.dialogs;
 using ParticleConverter.util;
 using SharpDX;
 using System;
@@ -19,7 +18,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
+using System.Globalization;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using Particle = ParticleConverter.util.Particle;
@@ -33,9 +32,18 @@ namespace ParticleConverter
     {
         private readonly Dictionary<string, string> oldValues = new Dictionary<string, string>();
         private readonly util.ImageConverter ImageConverter = new util.ImageConverter();
+
+        // CultureInfo.InvariantCultureでen-USの書式を取得
+        private readonly NumberFormatInfo format = CultureInfo.InvariantCulture.NumberFormat;
+
         public MainWindow()
         {
             InitializeComponent();
+            //カルチャ変更
+            if (!CultureInfo.CurrentCulture.Name.Equals("ja-JP"))
+            {
+                CultureInfo.CurrentCulture = new CultureInfo("en-US", false);
+            }
             Load_Langugae();
             ColorCodeBox_TextChanged(ColorCodeBox, null);
             FolderPathBox.Text = Settings.Default.FolderPath;
@@ -366,8 +374,8 @@ namespace ParticleConverter
         private void Sync_SizeBoxes()
         {
             System.Windows.Size size = ImageConverter.GetBlocks();
-            Update_FilterTextBox(SizeWBox, size.Width.ToString());
-            Update_FilterTextBox(SizeHBox, size.Height.ToString());
+            Update_FilterTextBox(SizeWBox, size.Width.ToString("R",format));
+            Update_FilterTextBox(SizeHBox, size.Height.ToString("R", format));
         }
 
         private void Sync_ResolutionBoxes()
@@ -513,15 +521,15 @@ namespace ParticleConverter
                 if (sender.Equals(SizeWBox))
                 {
                     double reheight = ImageConverter.ResizedHeight / (ImageConverter.ResizedWidth / double.Parse(sb.Text));
-                    Update_FilterTextBox(SizeHBox, reheight.ToString());
-                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString());
+                    Update_FilterTextBox(SizeHBox, reheight.ToString("R", format));
+                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString("R",format));
                     ImageConverter.Density = ImageConverter.ResizedWidth / double.Parse(sb.Text);
                 }
                 if (sender.Equals(SizeHBox))
                 {
                     double rewidth = ImageConverter.ResizedWidth / (ImageConverter.ResizedHeight / double.Parse(sb.Text));
-                    Update_FilterTextBox(SizeWBox, rewidth.ToString());
-                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedHeight / double.Parse(sb.Text)).ToString());
+                    Update_FilterTextBox(SizeWBox, rewidth.ToString("R", format));
+                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedHeight / double.Parse(sb.Text)).ToString("R", format));
                     ImageConverter.Density = ImageConverter.ResizedWidth / double.Parse(sb.Text);
                 }
             }
@@ -593,7 +601,7 @@ namespace ParticleConverter
                 ButtonProgressAssist.SetValue(ExportButton, 20);
                 ExportButton.UpdateLayout();
                 string fileName = System.IO.Path.GetFileNameWithoutExtension(FilePathBox.Text);
-                string filePath = FolderPathBox.Text + "\\" + fileName + ".mcfunction";
+                string filePath = FolderPathBox.Text + "\\" + fileName.ToLower() + ".mcfunction";
                 Encoding enc = new System.Text.UTF8Encoding(); ;
                 StreamWriter writer = null;
                 try
@@ -628,18 +636,18 @@ namespace ParticleConverter
                     for (int i = 0; i < particles.Length; i++)
                     {
                         var p = particles[i];
-                        string axis = $"{cs}{Math.Round(p.x, 7)} {cs}{Math.Round(p.y, 7)} {cs}{Math.Round(p.z, 7)}";
+                        string axis = $"{cs}{Math.Round(p.x, 7).ToString("R", format)} {cs}{Math.Round(p.y, 7).ToString("R", format)} {cs}{Math.Round(p.z, 7).ToString("R", format)}";
                         string particle = "minecraft:" + ParticleTypeBox.Text;
                         if (ParticleTypeBox.SelectedValue.Equals("dust"))
                         {
                             if (UseStaticDustColor.IsChecked.Value)
                             {
                                 Color color = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
-                                particle += $" {Math.Round(color.R / 255.0d, 2)} {Math.Round(color.G / 255.0d, 2)} {Math.Round(color.B / 255.0d, 2)} {ParticleSizeBox.Text}";
+                                particle += $" {Math.Round(color.R / 255.0d, 2).ToString("R", format)} {Math.Round(color.G / 255.0d, 2).ToString("R", format)} {Math.Round(color.B / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
                             }
                             else
                             {
-                                particle += $" {Math.Round(p.r / 255.0d, 2)} {Math.Round(p.g / 255.0d, 2)} {Math.Round(p.b / 255.0d, 2)} {ParticleSizeBox.Text}";
+                                particle += $" {Math.Round(p.r / 255.0d, 2).ToString("R", format)} {Math.Round(p.g / 255.0d, 2).ToString("R", format)} {Math.Round(p.b / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
                             }
                         }
                         string particleString = $"particle {particle} {axis} 0 0 0 0 1 {((ComboBoxItem)DisplayModeBox.SelectedItem).Tag} {ParticleViewerBox.Text}";
