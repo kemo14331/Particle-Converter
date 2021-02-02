@@ -6,19 +6,26 @@
     <UseWPF>true</UseWPF>
     <StartupObject>ParticleConverter.App</StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Kemo431.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>kemo14331.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <Copyright>Kemo431</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Kemo431</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Deterministic>false</Deterministic>
     <RepositoryUrl>https://github.com/kemo14331/Particle-Converter</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.3.*</AssemblyVersion>
+    <Version>1.0.3</Version>
+    <FileVersion>1.0.2</FileVersion>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,11 +33,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.12.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.2.0" />
+    <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.13.0" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
-    <PackageReference Include="OpenCV" Version="2.4.11" />
-    <PackageReference Include="OpenCvSharp4.Windows" Version="4.4.0.20200915" />
+    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200915" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
   </ItemGroup>
 
@@ -70,5 +75,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)\lang&quot; $(TargetDir) /Y" />
+  </Target>
 
 </Project>

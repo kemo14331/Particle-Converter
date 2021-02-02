@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,9 +14,11 @@ namespace ParticleConverter.dialogs
         public About()
         {
             InitializeComponent();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            
             var fullname = typeof(App).Assembly.Location;
             var info = System.Diagnostics.FileVersionInfo.GetVersionInfo(fullname);
-            var ver = info.FileVersion;
+            var ver = assembly.GetName().Version.ToString();
             Version.Text = ver;
         }
 

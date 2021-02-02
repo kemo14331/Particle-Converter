@@ -2,7 +2,6 @@
 using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using ParticleConverter.dialogs;
 using ParticleConverter.util;
 using SharpDX;
 using System;
@@ -19,6 +18,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Globalization;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using Particle = ParticleConverter.util.Particle;
@@ -32,9 +32,18 @@ namespace ParticleConverter
     {
         private readonly Dictionary<string, string> oldValues = new Dictionary<string, string>();
         private readonly util.ImageConverter ImageConverter = new util.ImageConverter();
+
+        // CultureInfo.InvariantCultureでen-USの書式を取得
+        private readonly NumberFormatInfo format = CultureInfo.InvariantCulture.NumberFormat;
+
         public MainWindow()
         {
             InitializeComponent();
+            //カルチャ変更
+            if (!CultureInfo.CurrentCulture.Name.Equals("ja-JP"))
+            {
+                CultureInfo.CurrentCulture = new CultureInfo("en-US", false);
+            }
             Load_Langugae();
             ColorCodeBox_TextChanged(ColorCodeBox, null);
             FolderPathBox.Text = Settings.Default.FolderPath;
@@ -70,12 +79,13 @@ namespace ParticleConverter
                     index++;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 MessageBox.Show("言語ファイルの読み込みに失敗しました\nFailed to load language files.",
                     "エラー/Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+                Logger.WriteExceptionLog(e);
                 this.Close();
             }
         }
@@ -180,92 +190,114 @@ namespace ParticleConverter
 
         private void Update_Preview()
         {
-            if (ImageConverter.IsLoaded && UsePreviewBox.IsChecked.Value)
+            try
             {
-                int coord = int.Parse(((ComboBoxItem)CoordinateAxis.SelectedItem).Tag.ToString());
-                int verAlig = int.Parse(((ComboBoxItem)VerticalAlignmentBox.SelectedItem).Tag.ToString());
-                int horAlig = int.Parse(((ComboBoxItem)HorizontalAlignmentBox.SelectedItem).Tag.ToString());
-                //Mat smat = ImageConverter.GetModifiedImage();
-                //System.Windows.Size size = ImageConverter.GetBlocks();
-                //Bitmap bitmap = smat.ToBitmap();
-                //var mb = new MeshBuilder(false, true);
-
-                //IList<Point3D> pnts = new List<Point3D>
-                //{
-                //    new Point3D(0, 0, 0),
-                //    new Point3D(size.Width, 0, 0),
-                //    new Point3D(size.Width, size.Height, 0),
-                //    new Point3D(0, size.Height, 0)
-                //};
-
-                //mb.AddPolygon(pnts);
-
-                //var mesh = mb.ToMesh(false);
-
-                //PointCollection pntCol = new PointCollection
-                //{
-                //    new System.Windows.Point(0, 0),
-                //    new System.Windows.Point(bitmap.Size.Width, 0),
-                //    new System.Windows.Point(bitmap.Size.Width, bitmap.Size.Height),
-                //    new System.Windows.Point(0, bitmap.Size.Height)
-                //};
-                //mesh.TextureCoordinates = pntCol;
-
-                //ImageBrush brush = new ImageBrush();
-
-                //using (Stream stream = new MemoryStream())
-                //{
-                //    bitmap.Save(stream, ImageFormat.Png);
-                //    stream.Seek(0, SeekOrigin.Begin);
-                //    BitmapImage img = new BitmapImage();
-                //    img.BeginInit();
-                //    img.CacheOption = BitmapCacheOption.OnLoad;
-                //    img.StreamSource = stream;
-                //    img.EndInit();
-                //    brush.ImageSource = img;
-                //}
-
-                //brush.TileMode = TileMode.Tile;
-                //brush.ViewportUnits = BrushMappingMode.Absolute;
-                //brush.ViewboxUnits = BrushMappingMode.Absolute;
-                //brush.Stretch = Stretch.None;
-                //brush.AlignmentX = AlignmentX.Left;
-                //brush.AlignmentY = AlignmentY.Top;
-                //brush.Viewport = new System.Windows.Rect(0, 0, brush.ImageSource.Width, brush.ImageSource.Height);
-                //DiffuseMaterial mat = new DiffuseMaterial(brush);
-
-                //GeometryModel3D gModel3D = new GeometryModel3D { Geometry = mesh, Material = mat, BackMaterial = mat };
-
-                //PreviewModel.Content = gModel3D;
-                Particle[] particles = ImageConverter.GetParticles(coord, verAlig, horAlig);
-                //ParticleModel.Children.Clear();
-                var points = new PointGeometry3D();
-                var vectors = new Vector3Collection();
-                var colors = new Color4Collection();
-                var ptIdx = new IntCollection();
-                int i = 0;
-                foreach (Particle particle in particles)
+                if (ImageConverter.IsLoaded && UsePreviewBox.IsChecked.Value)
                 {
-                    vectors.Add(new Vector3((float)particle.x, (float)particle.y, (float)particle.z));
-                    if (UseStaticDustColor.IsChecked.Value)
+                    int coord = CoordinateAxis.SelectedIndex;
+                    int verAlig = VerticalAlignmentBox.SelectedIndex;
+                    int horAlig = HorizontalAlignmentBox.SelectedIndex;
+                    //Mat smat = ImageConverter.GetModifiedImage();
+                    //System.Windows.Size size = ImageConverter.GetBlocks();
+                    //Bitmap bitmap = smat.ToBitmap();
+                    //var mb = new MeshBuilder(false, true);
+
+                    //IList<Point3D> pnts = new List<Point3D>
+                    //{
+                    //    new Point3D(0, 0, 0),
+                    //    new Point3D(size.Width, 0, 0),
+                    //    new Point3D(size.Width, size.Height, 0),
+                    //    new Point3D(0, size.Height, 0)
+                    //};
+
+                    //mb.AddPolygon(pnts);
+
+                    //var mesh = mb.ToMesh(false);
+
+                    //PointCollection pntCol = new PointCollection
+                    //{
+                    //    new System.Windows.Point(0, 0),
+                    //    new System.Windows.Point(bitmap.Size.Width, 0),
+                    //    new System.Windows.Point(bitmap.Size.Width, bitmap.Size.Height),
+                    //    new System.Windows.Point(0, bitmap.Size.Height)
+                    //};
+                    //mesh.TextureCoordinates = pntCol;
+
+                    //ImageBrush brush = new ImageBrush();
+
+                    //using (Stream stream = new MemoryStream())
+                    //{
+                    //    bitmap.Save(stream, ImageFormat.Png);
+                    //    stream.Seek(0, SeekOrigin.Begin);
+                    //    BitmapImage img = new BitmapImage();
+                    //    img.BeginInit();
+                    //    img.CacheOption = BitmapCacheOption.OnLoad;
+                    //    img.StreamSource = stream;
+                    //    img.EndInit();
+                    //    brush.ImageSource = img;
+                    //}
+
+                    //brush.TileMode = TileMode.Tile;
+                    //brush.ViewportUnits = BrushMappingMode.Absolute;
+                    //brush.ViewboxUnits = BrushMappingMode.Absolute;
+                    //brush.Stretch = Stretch.None;
+                    //brush.AlignmentX = AlignmentX.Left;
+                    //brush.AlignmentY = AlignmentY.Top;
+                    //brush.Viewport = new System.Windows.Rect(0, 0, brush.ImageSource.Width, brush.ImageSource.Height);
+                    //DiffuseMaterial mat = new DiffuseMaterial(brush);
+
+                    //GeometryModel3D gModel3D = new GeometryModel3D { Geometry = mesh, Material = mat, BackMaterial = mat };
+
+                    //PreviewModel.Content = gModel3D;
+                    Particle[] particles = ImageConverter.GetParticles(coord, verAlig, horAlig);
+                    //ParticleModel.Children.Clear();
+                    var points = new PointGeometry3D();
+                    var vectors = new Vector3Collection();
+                    var colors = new Color4Collection();
+                    var ptIdx = new IntCollection();
+                    int i = 0;
+                    foreach (Particle particle in particles)
                     {
-                        Color c = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
-                        colors.Add(new Color4(c.R / 255f, c.G / 255f, c.B / 255f, 1.0f));
+                        vectors.Add(new Vector3((float)particle.x, (float)particle.y, (float)particle.z));
+                        if (UseStaticDustColor.IsChecked.Value)
+                        {
+                            Color c = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
+                            colors.Add(new Color4(c.R / 255f, c.G / 255f, c.B / 255f, 1.0f));
+                        }
+                        else
+                        {
+                            colors.Add(new Color4(particle.r / 255f, particle.g / 255f, particle.b / 255f, 1.0f));
+                        }
+                        ptIdx.Add(i);
+                        i++;
+                    }
+                    points.Positions = vectors;
+                    points.Colors = colors;
+                    points.Indices = ptIdx;
+                    ParticleModel.Geometry = points;
+                    double size = double.Parse(ParticleSizeBox.Text);
+                    ParticleModel.Size = new System.Windows.Size(3 * Math.Sqrt(size), 3 * Math.Sqrt(size));
+                    ParticleCounter.Text = $"Particles: {particles.Length}";
+                    if(particles.Length >= 2000)
+                    {
+                        ParticleCounter.Foreground = new SolidColorBrush(Colors.Red);
+                        CounterAlert.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        colors.Add(new Color4(particle.r / 255f, particle.g / 255f, particle.b / 255f, 1.0f));
+                        ParticleCounter.Foreground = new SolidColorBrush(Colors.Snow);
+                        CounterAlert.Visibility = Visibility.Hidden;
                     }
-                    ptIdx.Add(i);
-                    i++;
                 }
-                points.Positions = vectors;
-                points.Colors = colors;
-                points.Indices = ptIdx;
-                ParticleModel.Geometry = points;
-                double size = double.Parse(ParticleSizeBox.Text);
-                ParticleModel.Size = new System.Windows.Size(3 * Math.Sqrt(size), 3 * Math.Sqrt(size));
-                ParticleCounter.Text = $"Particles: {particles.Length}";
+            }
+            catch (Exception e)
+            {
+                Logger.WriteExceptionLog(e);
+                MessageBox.Show("プレビューの更新に失敗しました\nFailed to update preview.",
+                    "エラー/Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                this.Close();
             }
         }
 
@@ -342,8 +374,8 @@ namespace ParticleConverter
         private void Sync_SizeBoxes()
         {
             System.Windows.Size size = ImageConverter.GetBlocks();
-            Update_FilterTextBox(SizeWBox, size.Width.ToString());
-            Update_FilterTextBox(SizeHBox, size.Height.ToString());
+            Update_FilterTextBox(SizeWBox, size.Width.ToString("R",format));
+            Update_FilterTextBox(SizeHBox, size.Height.ToString("R", format));
         }
 
         private void Sync_ResolutionBoxes()
@@ -378,12 +410,13 @@ namespace ParticleConverter
                     UsePreviewBox.IsChecked = true;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 MessageBox.Show("画像ファイルの読み込みに失敗しました\nFailed to load an image file",
                 "エラー/Error",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
+                Logger.WriteExceptionLog(e);
                 this.Close();
             }
         }
@@ -488,15 +521,15 @@ namespace ParticleConverter
                 if (sender.Equals(SizeWBox))
                 {
                     double reheight = ImageConverter.ResizedHeight / (ImageConverter.ResizedWidth / double.Parse(sb.Text));
-                    Update_FilterTextBox(SizeHBox, reheight.ToString());
-                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString());
+                    Update_FilterTextBox(SizeHBox, reheight.ToString("R", format));
+                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString("R",format));
                     ImageConverter.Density = ImageConverter.ResizedWidth / double.Parse(sb.Text);
                 }
                 if (sender.Equals(SizeHBox))
                 {
                     double rewidth = ImageConverter.ResizedWidth / (ImageConverter.ResizedHeight / double.Parse(sb.Text));
-                    Update_FilterTextBox(SizeWBox, rewidth.ToString());
-                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedHeight / double.Parse(sb.Text)).ToString());
+                    Update_FilterTextBox(SizeWBox, rewidth.ToString("R", format));
+                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedHeight / double.Parse(sb.Text)).ToString("R", format));
                     ImageConverter.Density = ImageConverter.ResizedWidth / double.Parse(sb.Text);
                 }
             }
@@ -560,15 +593,15 @@ namespace ParticleConverter
                 BrowsImageButton.IsEnabled = false;
                 BrowsFolderButton.IsEnabled = false;
                 ButtonProgressAssist.SetValue(ExportButton, 0);
-                int coord = int.Parse(((ComboBoxItem)CoordinateAxis.SelectedItem).Tag.ToString());
-                int verAlig = int.Parse(((ComboBoxItem)VerticalAlignmentBox.SelectedItem).Tag.ToString());
-                int horAlig = int.Parse(((ComboBoxItem)HorizontalAlignmentBox.SelectedItem).Tag.ToString());
+                int coord = CoordinateAxis.SelectedIndex;
+                int verAlig = VerticalAlignmentBox.SelectedIndex;
+                int horAlig = HorizontalAlignmentBox.SelectedIndex;
                 Particle[] particles = ImageConverter.GetParticles(coord, verAlig, horAlig);
                 ButtonProgressAssist.SetMaximum(ExportButton, particles.Length + 20);
                 ButtonProgressAssist.SetValue(ExportButton, 20);
                 ExportButton.UpdateLayout();
                 string fileName = System.IO.Path.GetFileNameWithoutExtension(FilePathBox.Text);
-                string filePath = FolderPathBox.Text + "\\" + fileName + ".mcfunction";
+                string filePath = FolderPathBox.Text + "\\" + fileName.ToLower() + ".mcfunction";
                 Encoding enc = new System.Text.UTF8Encoding(); ;
                 StreamWriter writer = null;
                 try
@@ -603,18 +636,18 @@ namespace ParticleConverter
                     for (int i = 0; i < particles.Length; i++)
                     {
                         var p = particles[i];
-                        string axis = $"{cs}{p.x} {cs}{p.y} {cs}{p.z}";
+                        string axis = $"{cs}{Math.Round(p.x, 7).ToString("R", format)} {cs}{Math.Round(p.y, 7).ToString("R", format)} {cs}{Math.Round(p.z, 7).ToString("R", format)}";
                         string particle = "minecraft:" + ParticleTypeBox.Text;
                         if (ParticleTypeBox.SelectedValue.Equals("dust"))
                         {
                             if (UseStaticDustColor.IsChecked.Value)
                             {
                                 Color color = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
-                                particle += $" {Math.Round(color.R / 255.0d, 2)} {Math.Round(color.G / 255.0d, 2)} {Math.Round(color.B / 255.0d, 2)} {ParticleSizeBox.Text}";
+                                particle += $" {Math.Round(color.R / 255.0d, 2).ToString("R", format)} {Math.Round(color.G / 255.0d, 2).ToString("R", format)} {Math.Round(color.B / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
                             }
                             else
                             {
-                                particle += $" {Math.Round(p.r / 255.0d, 2)} {Math.Round(p.g / 255.0d, 2)} {Math.Round(p.b / 255.0d, 2)} {ParticleSizeBox.Text}";
+                                particle += $" {Math.Round(p.r / 255.0d, 2).ToString("R", format)} {Math.Round(p.g / 255.0d, 2).ToString("R", format)} {Math.Round(p.b / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
                             }
                         }
                         string particleString = $"particle {particle} {axis} 0 0 0 0 1 {((ComboBoxItem)DisplayModeBox.SelectedItem).Tag} {ParticleViewerBox.Text}";
@@ -625,12 +658,13 @@ namespace ParticleConverter
                         ButtonProgressAssist.SetValue(ExportButton, 20 + 1 + i);
                     }
                 }
-                catch
+                catch (Exception exc)
                 {
                     MessageBox.Show("ファイルの書き込みに失敗しました\nFailed to export a file.",
                         "エラー/Error",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
+                    Logger.WriteExceptionLog(exc);
                 }
                 finally
                 {
@@ -670,7 +704,7 @@ namespace ParticleConverter
         }
         private async void Show_About(object sender, RoutedEventArgs e)
         {
-            var dialog = new About();
+            var dialog = new dialogs.About();
             var result = await DialogHost.ShowDialog(dialog);
         }
 
