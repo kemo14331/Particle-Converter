@@ -16,9 +16,9 @@
     <RepositoryUrl>https://github.com/kemo14331/Particle-Converter</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <ApplicationIcon>icon.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.3.*</AssemblyVersion>
-    <Version>1.0.3</Version>
-    <FileVersion>1.0.2</FileVersion>
+    <AssemblyVersion>1.0.4.*</AssemblyVersion>
+    <Version>1.0.4</Version>
+    <FileVersion>1.0.4</FileVersion>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
@@ -26,6 +26,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -35,7 +36,8 @@
   <ItemGroup>
     <PackageReference Include="HelixToolkit.SharpDX.Core.Wpf" Version="2.13.0" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
-    <PackageReference Include="OpenCvSharp4" Version="4.4.0.20200915" />
+    <PackageReference Include="OpenCV" Version="2.4.11" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
   </ItemGroup>
 
@@ -53,6 +55,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="OpenCvSharpExtern.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="OpenCvSharpExtern.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -60,6 +68,7 @@
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="icon.png">
       <Pack>True</Pack>
@@ -68,16 +77,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="OpenCvSharp">
+      <HintPath>..\..\..\..\..\Desktop\a\OpenCvSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="lang\en-US.xaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
     <Page Update="lang\ja-JP.xaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(ProjectDir)\lang&quot; $(TargetDir) /Y" />
+    <Exec Command="xcopy &quot;$(ProjectDir)\lang\*&quot; &quot;$(TargetDir)\lang&quot; /e /y /i" />
   </Target>
 
 </Project>
