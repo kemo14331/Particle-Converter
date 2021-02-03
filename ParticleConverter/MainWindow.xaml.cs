@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Media;
 using System.Reflection;
@@ -18,7 +19,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Globalization;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
 using Particle = ParticleConverter.util.Particle;
@@ -278,7 +278,7 @@ namespace ParticleConverter
                     double size = double.Parse(ParticleSizeBox.Text);
                     ParticleModel.Size = new System.Windows.Size(3 * Math.Sqrt(size), 3 * Math.Sqrt(size));
                     ParticleCounter.Text = $"Particles: {particles.Length}";
-                    if(particles.Length >= 2000)
+                    if (particles.Length >= 2000)
                     {
                         ParticleCounter.Foreground = new SolidColorBrush(Colors.Red);
                         CounterAlert.Visibility = Visibility.Visible;
@@ -374,7 +374,7 @@ namespace ParticleConverter
         private void Sync_SizeBoxes()
         {
             System.Windows.Size size = ImageConverter.GetBlocks();
-            Update_FilterTextBox(SizeWBox, size.Width.ToString("R",format));
+            Update_FilterTextBox(SizeWBox, size.Width.ToString("R", format));
             Update_FilterTextBox(SizeHBox, size.Height.ToString("R", format));
         }
 
@@ -522,7 +522,7 @@ namespace ParticleConverter
                 {
                     double reheight = ImageConverter.ResizedHeight / (ImageConverter.ResizedWidth / double.Parse(sb.Text));
                     Update_FilterTextBox(SizeHBox, reheight.ToString("R", format));
-                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString("R",format));
+                    Update_FilterTextBox(ParticleDensityBox, (ImageConverter.ResizedWidth / double.Parse(sb.Text)).ToString("R", format));
                     ImageConverter.Density = ImageConverter.ResizedWidth / double.Parse(sb.Text);
                 }
                 if (sender.Equals(SizeHBox))
