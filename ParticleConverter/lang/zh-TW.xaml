@@ -1,0 +1,73 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WindowTitle">例子效果轉換器</system:String>
+
+    <system:String x:Key="DeveloperTwitter">開發者的推特</system:String>
+    <system:String x:Key="BugReport">錯誤回報</system:String>
+    <system:String x:Key="About">關於</system:String>
+
+    <system:String x:Key="SettingTitle">轉換器設定</system:String>
+    <system:String x:Key="ImageFileName">圖片檔案</system:String>
+    <system:String x:Key="Brows">瀏覽</system:String>
+
+    <system:String x:Key="CoordinateMode">座標模式</system:String>
+    <system:String x:Key="RelativeCoordinate">相對世界</system:String>
+    <system:String x:Key="LocalCoordinate">相對本地</system:String>
+
+    <system:String x:Key="CoordinateAxis">座標軸</system:String>
+    <system:String x:Key="X-Y">X-Y</system:String>
+    <system:String x:Key="Y-Z">Y-Z</system:String>
+    <system:String x:Key="Z-X">Z-X</system:String>
+
+    <system:String x:Key="Rotation">旋轉</system:String>
+    <system:String x:Key="Flip">翻轉</system:String>
+
+    <system:String x:Key="VerticalAlignment">垂直對齊</system:String>
+    <system:String x:Key="Top">頂部</system:String>
+    <system:String x:Key="Center">中央r</system:String>
+    <system:String x:Key="Bottom">底部</system:String>
+
+    <system:String x:Key="HorizontalAlignment">水平對齊</system:String>
+    <system:String x:Key="Right">右邊</system:String>
+    <system:String x:Key="Left">左邊</system:String>
+
+    <system:String x:Key="Particle">粒子效果</system:String>
+    <system:String x:Key="ParticleType">粒子效果種類</system:String>
+    <system:String x:Key="DisplayMode">顯示模式</system:String>
+    <system:String x:Key="Normal">一般</system:String>
+    <system:String x:Key="Force">強制</system:String>
+    <system:String x:Key="ParticleViewer">查看者</system:String>
+    <system:String x:Key="DustColorStatic">固定顏色</system:String>
+    <system:String x:Key="ColorCode">顏色代碼</system:String>
+
+    <system:String x:Key="ParticleSize"粒子效果大小</system:String>
+
+    <system:String x:Key="ParticleDensity">密度</system:String>
+    <system:String x:Key="AutoSize">自動大小</system:String>
+
+    <system:String x:Key="Size">大小（格）</system:String>
+    <system:String x:Key="Width">寬度</system:String>
+    <system:String x:Key="Height">高度</system:String>
+
+    <system:String x:Key="Resolution">解析度</system:String>
+    <system:String x:Key="AutoResolution">自動</system:String>
+
+    <system:String x:Key="ExtraOptions">更多設定</system:String>
+
+    <system:String x:Key="UsePreview">預覽</system:String>
+
+    <system:String x:Key="ExportSettings">匯出設定</system:String>
+    <system:String x:Key="ExportFolder">匯出資料夾</system:String>
+    <system:String x:Key="Export">匯出！！</system:String>
+
+    <system:String x:Key="ParticleCounterAlert">
+        有太多粒子效果。
+        有可能無法正常顯示，取決於電腦性能。
+        請考慮更改解析度。
+    </system:String>
+
+    <system:String x:Key="UpdateNotification">更新通知</system:String>
+    <system:String x:Key="UpdateNotificationMsg">新的版本已經退出。 \ n 你想要下載嗎？</system:String>
+</ResourceDictionary>
