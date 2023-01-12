@@ -1,0 +1,72 @@
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="WindowTitle">Partikül Çevirici</system:String>
+
+    <system:String x:Key="DeveloperTwitter">Geliştiricinin Twitter'ı</system:String>
+    <system:String x:Key="BugReport">Hata Raporla</system:String>
+    <system:String x:Key="About">Hakkında</system:String>
+
+    <system:String x:Key="SettingTitle">Çevirme Seçenekleri</system:String>
+    <system:String x:Key="ImageFileName">Görsel</system:String>
+    <system:String x:Key="Brows">Tara</system:String>
+
+    <system:String x:Key="CoordinateMode">Kordinat Modu</system:String>
+    <system:String x:Key="RelativeCoordinate">Dünya Yereli</system:String>
+    <system:String x:Key="LocalCoordinate">Göreceli Yerel</system:String>
+
+    <system:String x:Key="CoordinateAxis">Kordinat Ekseni</system:String>
+    <system:String x:Key="X-Y">X-Y</system:String>
+    <system:String x:Key="Y-Z">Y-Z</system:String>
+    <system:String x:Key="Z-X">Z-X</system:String>
+
+    <system:String x:Key="Rotation">Rotasyon</system:String>
+    <system:String x:Key="Flip">Çevir</system:String>
+
+    <system:String x:Key="VerticalAlignment">Dikey Hizalama</system:String>
+    <system:String x:Key="Top">En Üst</system:String>
+    <system:String x:Key="Center">Orta</system:String>
+    <system:String x:Key="Bottom">En Alt</system:String>
+
+    <system:String x:Key="HorizontalAlignment">Yatay Hizalama</system:String>
+    <system:String x:Key="Right">Sağ</system:String>
+    <system:String x:Key="Left">Sol</system:String>
+
+    <system:String x:Key="Particle">Partikül</system:String>
+    <system:String x:Key="ParticleType">Partikül Türü</system:String>
+    <system:String x:Key="DisplayMode">Görüntüleme Modu</system:String>
+    <system:String x:Key="Normal">Normal</system:String>
+    <system:String x:Key="Force">Zorla</system:String>
+    <system:String x:Key="ParticleViewer">Görüntüleyici</system:String>
+    <system:String x:Key="DustColorStatic">Renk Düzeltme</system:String>
+    <system:String x:Key="ColorCode">Renk Kodu</system:String>
+
+    <system:String x:Key="ParticleSize">Partikül Boyutu</system:String>
+
+    <system:String x:Key="ParticleDensity">Yoğunluk</system:String>
+    <system:String x:Key="AutoSize">Otomatik Boyutlandırma</system:String>
+
+    <system:String x:Key="Size">Boyut (blok)</system:String>
+    <system:String x:Key="Width">Genişlik</system:String>
+    <system:String x:Key="Height">Yükseklik</system:String>
+
+    <system:String x:Key="Resolution">Çözünürlük</system:String>
+    <system:String x:Key="AutoResolution">Otomatik</system:String>
+
+    <system:String x:Key="ExtraOptions">Daha Fazla Seçenek</system:String>
+
+    <system:String x:Key="UsePreview">Önizleme</system:String>
+
+    <system:String x:Key="ExportSettings">Çıktı Seçenekleri</system:String>
+    <system:String x:Key="ExportFolder">Çıktı Klasörü</system:String>
+    <system:String x:Key="Export">Dönüştür!!</system:String>
+
+    <system:String x:Key="ParticleCounterAlert">
+        Çok fazla partikül var.
+        Bilgisayarının performansına göre kaliteli gösterilemeyebilir.
+        Çözünürlüğü değiştirmeyi düşün.
+    </system:String>
+
+    <system:String x:Key="UpdateNotification">Güncelleme Bildirimi</system:String>
+    <system:String x:Key="UpdateNotificationMsg">Yeni bir sürüm mevcut. \ n İndirmek ister misin?</system:String>
+</ResourceDictionary>
