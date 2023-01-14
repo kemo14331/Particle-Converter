@@ -10,7 +10,7 @@
 
     <system:String x:Key="SettingTitle">Convertion Settings</system:String>
     <system:String x:Key="ImageFileName">ImageFile</system:String>
-    <system:String x:Key="Brows">Brows</system:String>
+    <system:String x:Key="Brows">Browse</system:String>
 
     <system:String x:Key="CoordinateMode">Coordinate Mode</system:String>
     <system:String x:Key="RelativeCoordinate">Relative World</system:String>
@@ -24,18 +24,18 @@
     <system:String x:Key="Rotation">Rotation</system:String>
     <system:String x:Key="Flip">Flip</system:String>
 
-    <system:String x:Key="VerticalAlignment">VerticalAlignment</system:String>
+    <system:String x:Key="VerticalAlignment">Vertical Alignment</system:String>
     <system:String x:Key="Top">Top</system:String>
     <system:String x:Key="Center">Center</system:String>
     <system:String x:Key="Bottom">Bottom</system:String>
 
-    <system:String x:Key="HorizontalAlignment">HorizontalAlignment</system:String>
+    <system:String x:Key="HorizontalAlignment">Horizontal Alignment</system:String>
     <system:String x:Key="Right">Right</system:String>
     <system:String x:Key="Left">Left</system:String>
 
     <system:String x:Key="Particle">Particle</system:String>
     <system:String x:Key="ParticleType">Particle Type</system:String>
-    <system:String x:Key="DisplayMode">DisplayMode</system:String>
+    <system:String x:Key="DisplayMode">Display Mode</system:String>
     <system:String x:Key="Normal">Normal</system:String>
     <system:String x:Key="Force">Force</system:String>
     <system:String x:Key="ParticleViewer">Viewer</system:String>
@@ -45,9 +45,9 @@
     <system:String x:Key="ParticleSize">Particle Size</system:String>
 
     <system:String x:Key="ParticleDensity">Density</system:String>
-    <system:String x:Key="AutoSize">AutoSize</system:String>
+    <system:String x:Key="AutoSize">Auto Size</system:String>
 
-    <system:String x:Key="Size">Size(blocks)</system:String>
+    <system:String x:Key="Size">Size (blocks)</system:String>
     <system:String x:Key="Width">Width</system:String>
     <system:String x:Key="Height">Height</system:String>
 
@@ -59,7 +59,7 @@
     <system:String x:Key="UsePreview">Preview</system:String>
 
     <system:String x:Key="ExportSettings">Export Settings</system:String>
-    <system:String x:Key="ExportFolder">ExportFolder</system:String>
+    <system:String x:Key="ExportFolder">Export Folder</system:String>
     <system:String x:Key="Export">Export!!</system:String>
 
     <system:String x:Key="ParticleCounterAlert">
