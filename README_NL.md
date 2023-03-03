@@ -14,7 +14,7 @@ Particle Converter is een app die afbeeldingsbestanden omzet in particles.
 
  <summary>en meer</summary><div>  
 
- <img src="https://imgur.com/Ld544Cx.jpg", "screenshot1">
+ <img src="https://imgur.com/Ld544Cx.jpg" alt="screenshot1">
 
  <img src="https://imgur.com/hdSbSkc.jpg" alt="screenshot2" />
 
