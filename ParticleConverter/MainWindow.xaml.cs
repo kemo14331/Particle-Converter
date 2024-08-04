@@ -643,11 +643,13 @@ namespace ParticleConverter
                             if (UseStaticDustColor.IsChecked.Value)
                             {
                                 Color color = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
-                                particle += $" {Math.Round(color.R / 255.0d, 2).ToString("R", format)} {Math.Round(color.G / 255.0d, 2).ToString("R", format)} {Math.Round(color.B / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
+                                particle += $" {{color:[{Math.Round(color.R / 255.0d, 2).ToString("F2", format)}, {Math.Round(color.G / 255.0d, 2).ToString("F2", format)}, {Math.Round(color.B / 255.0d, 2).ToString("F2", format)}], scale: {double.Parse(ParticleSizeBox.Text).ToString("R", format)} }}";
                             }
                             else
                             {
-                                particle += $" {Math.Round(p.r / 255.0d, 2).ToString("R", format)} {Math.Round(p.g / 255.0d, 2).ToString("R", format)} {Math.Round(p.b / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
+                                particle += $" {{color:[{Math.Round(p.r / 255.0d, 2).ToString("F2", format)}, {Math.Round(p.g / 255.0d, 2).ToString("F2", format)}, {Math.Round(p.b / 255.0d, 2).ToString("F2", format)}] , scale: {double.Parse(ParticleSizeBox.Text).ToString("R", format)} }}";
+
+                            
                             }
                         }
                         string particleString = $"particle {particle} {axis} 0 0 0 0 1 {((ComboBoxItem)DisplayModeBox.SelectedItem).Tag} {ParticleViewerBox.Text}";
