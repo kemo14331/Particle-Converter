@@ -539,7 +539,7 @@ namespace ParticleConverter
         private void ParticleSizeBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox sb = (TextBox)sender;
-            if (decimal.TryParse(sb.Text, out decimal d) && d <= decimal.Parse("1.00") && d > 0)
+            if (decimal.TryParse(sb.Text, out decimal d) && d <= decimal.Parse("4.00") && d > 0)
             {
                 oldValues[sb.Name] = sb.Text;
                 Update_Preview();
@@ -643,11 +643,16 @@ namespace ParticleConverter
                             if (UseStaticDustColor.IsChecked.Value)
                             {
                                 Color color = (Color)ColorConverter.ConvertFromString(ColorCodeBox.Text);
-                                particle += $" {Math.Round(color.R / 255.0d, 2).ToString("R", format)} {Math.Round(color.G / 255.0d, 2).ToString("R", format)} {Math.Round(color.B / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
-                            }
+                                particle += '{';
+                                particle += $"color:[{Math.Round(color.R / 255.0d, 2).ToString("R", format)},{Math.Round(color.G / 255.0d, 2).ToString("R", format)},{Math.Round(color.B / 255.0d, 2).ToString("R", format)}],scale:{double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
+                                particle += '}';
+                            
+                        }
                             else
                             {
-                                particle += $" {Math.Round(p.r / 255.0d, 2).ToString("R", format)} {Math.Round(p.g / 255.0d, 2).ToString("R", format)} {Math.Round(p.b / 255.0d, 2).ToString("R", format)} {double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
+                                particle += '{';
+                                particle += $"color:[{Math.Round(p.r / 255.0d, 2).ToString("R", format)},{Math.Round(p.g / 255.0d, 2).ToString("R", format)},{Math.Round(p.b / 255.0d, 2).ToString("R", format)}],scale:{double.Parse(ParticleSizeBox.Text).ToString("R", format)}";
+                                particle += '}';
                             }
                         }
                         string particleString = $"particle {particle} {axis} 0 0 0 0 1 {((ComboBoxItem)DisplayModeBox.SelectedItem).Tag} {ParticleViewerBox.Text}";
